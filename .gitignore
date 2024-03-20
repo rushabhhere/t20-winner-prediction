@@ -141,3 +141,6 @@ ui-tests/.pnp.*
 
 # dataset
 t20s_male_csv2
+
+# temp folder
+ignore

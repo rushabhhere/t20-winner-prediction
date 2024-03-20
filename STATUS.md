@@ -6,6 +6,8 @@
 - Required Run Rate
 - Winner/Loser from batting point of view
 
+- Venue and Toss Outcome (pre-match prediction)
+
 ## For model:
 
 - Add dropout (bad idea)
@@ -21,3 +23,4 @@
 
 - Remove RRR, CRR and see
 - Add more layers to the neural network
+- Reinforcement learning (not looking very useful)

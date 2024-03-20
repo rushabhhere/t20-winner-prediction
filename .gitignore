@@ -138,3 +138,6 @@ ui-tests/.pnp.*
 
 # virtual environment
 .venv
+
+# dataset
+t20s_male_csv2

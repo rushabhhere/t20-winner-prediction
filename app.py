@@ -1,10 +1,14 @@
 import streamlit as st
 import pickle
 import joblib
+import warnings
+
+warnings.filterwarnings("ignore")
 
 # load keras model
-# from tensorflow.keras.saving import load_model
-from tensorflow.keras.models import load_model
+from tensorflow.keras.saving import load_model
+
+# from tensorflow.keras.models import load_model
 from matches import matches, get_match_details
 from plotly import express as px
 
@@ -478,10 +482,10 @@ with tab1:
             bowling_team_probability = 1 - batting_team_probability
         else:
             result = model.predict(input_df)
-            batting_team_probability = result[0][0]
+            batting_team_probability = float(result[0][0])
             bowling_team_probability = 1 - batting_team_probability
 
-        print(batting_team_probability)
+        print(selection + ": " + str(batting_team_probability))
         progress = st.progress(batting_team_probability)
 
         cols = st.columns(2)

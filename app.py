@@ -1,6 +1,10 @@
 import streamlit as st
 import pickle
 import joblib
+
+# load keras model
+# from tensorflow.keras.saving import load_model
+from tensorflow.keras.models import load_model
 from matches import matches, get_match_details
 from plotly import express as px
 
@@ -23,15 +27,24 @@ st.markdown(
 modelpath = {
     "Logistic Regression": "./models/logistic_regression.pkl",
     "Random Forest": "./models/random_forest.pkl",
-    "XGBoost": "./models/xgboost.pkl",
+    "Neural Network": "./models/fnn_1l_model.keras",
 }
 
 st.title("T20 International Win Predictor")
 
 # model selector
-selection = st.selectbox("Select Model", ["Logistic Regression", "Random Forest"])
+selection = st.selectbox(
+    "Select Model", ["Logistic Regression", "Random Forest", "Neural Network"]
+)
 
-model = pickle.load(open(modelpath[selection], "rb"))
+model = pickle.load(open(modelpath["Logistic Regression"], "rb"))
+
+if selection in ["Logistic Regression", "Random Forest"]:
+    model = pickle.load(open(modelpath[selection], "rb"))
+else:
+    model = load_model(modelpath[selection])
+    # model = joblib.load(open(modelpath[selection], "rb"))
+
 scaler = joblib.load(open("./models/scaler.pkl", "rb"))
 
 tab1, tab2 = st.tabs(["Predict", "Historical"])
@@ -454,10 +467,23 @@ with tab1:
 
         input_df = [[runs_left, wickets, crr, rrr, balls_left]]
         input_df = scaler.transform(input_df)
-        result = model.predict_proba(input_df)
-        batting_team_probability = result[0][1]
-        bowling_team_probability = 1 - batting_team_probability
+
+        result = 1
+        batting_team_probability = 0.9
+        bowling_team_probability = 0.1
+
+        if selection in ["Logistic Regression", "Random Forest"]:
+            result = model.predict_proba(input_df)
+            batting_team_probability = result[0][1]
+            bowling_team_probability = 1 - batting_team_probability
+        else:
+            result = model.predict(input_df)
+            batting_team_probability = result[0][0]
+            bowling_team_probability = 1 - batting_team_probability
+
+        print(batting_team_probability)
         progress = st.progress(batting_team_probability)
+
         cols = st.columns(2)
         with cols[0]:
             st.markdown(
@@ -505,9 +531,19 @@ with tab2:
 
         input_df = [[runs_left, wickets, crr, rrr, balls_left]]
         input_df = scaler.transform(input_df)
-        result = model.predict_proba(input_df)
-        batting_team_probability = result[0][1]
-        bowling_team_probability = 1 - batting_team_probability
+
+        result = 1
+        batting_team_probability = 0.9
+        bowling_team_probability = 0.1
+
+        if selection in ["Logistic Regression", "Random Forest"]:
+            result = model.predict_proba(input_df)
+            batting_team_probability = result[0][1]
+            bowling_team_probability = 1 - batting_team_probability
+        else:
+            result = model.predict(input_df)
+            batting_team_probability = result[0][0]
+            bowling_team_probability = 1 - batting_team_probability
 
         predictions.append(
             {

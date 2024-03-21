@@ -18,9 +18,26 @@
 - Correlation
 - Distribution of wickets fallen per over
 - Distribution of runs scored per over
+- Loss vs Accuracy of models over epochs
 
 ## To do:
 
-- Remove RRR, CRR and see
-- Add more layers to the neural network
-- Reinforcement learning (not looking very useful)
+[x] Remove RRR, CRR and see
+[ ] Add more layers to the neural network
+[ ] Try random forest
+[ ] Add custom penalty to loss function
+[ ] Streamlit visualization
+[ ] Add first innings data
+[ ] Add more features
+[ ] Reinforcement learning (not looking very useful)
+
+## Models to try:
+
+- Logistic Regression
+- Random Forest
+- SVM
+- KNN
+- Naive Bayes
+- Decision Tree
+- XGBoost
+- Neural Network

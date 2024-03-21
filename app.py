@@ -20,9 +20,25 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+modelpath = {
+    "Logistic Regression": "./models/logistic_regression.pkl",
+    "Random Forest": "./models/random_forest.pkl",
+    "XGBoost": "./models/xgboost.pkl",
+}
+
+st.title("T20 International Win Predictor")
+
+# model selector
+selection = st.selectbox("Select Model", ["Logistic Regression", "Random Forest"])
+
+model = pickle.load(open(modelpath[selection], "rb"))
+scaler = joblib.load(open("./models/scaler.pkl", "rb"))
+
 tab1, tab2 = st.tabs(["Predict", "Historical"])
 
 with tab1:
+    st.markdown("### Prediction")
+
     teams = [
         "Mozambique",
         "New Zealand",
@@ -396,10 +412,6 @@ with tab1:
         "St George's Park, Gqeberha",
     ]
 
-    model = pickle.load(open("./models/logistic_regression.pkl", "rb"))
-    scaler = joblib.load(open("./models/scaler.pkl", "rb"))
-    st.title("T20 International Win Predictor")
-
     col1, col2 = st.columns(2)
 
     with col1:
@@ -461,14 +473,14 @@ with tab1:
             )
 
 with tab2:
+    st.markdown("### Match Details")
+
     match = st.selectbox(
         "Select the Match", sorted([match.split("=")[1] for match in matches])
     )
 
     idx = [match.split("=")[1] for match in matches].index(match)
     match_id = matches[idx].split("=")[0]
-
-    st.title("Match Details")
 
     match_df = get_match_details(match_id)
 

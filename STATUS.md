@@ -24,9 +24,10 @@
 
 [x] Remove RRR, CRR and see
 [ ] Add more layers to the neural network
-[ ] Try random forest
+[x] Try random forest
+[ ] Grid search
 [ ] Add custom penalty to loss function
-[ ] Streamlit visualization
+[x] Streamlit visualization
 [ ] Add first innings data
 [ ] Add more features
 [ ] Reinforcement learning (not looking very useful)
